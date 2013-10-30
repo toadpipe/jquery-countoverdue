@@ -1,0 +1,219 @@
+/*
+ * 	Copyright (c) 2013 Toadpipe, http://www.soundinavacuum.com
+ *  
+ * 	Permission is hereby granted, free of charge, to any person obtaining
+ * 	a copy of this software and associated documentation files (the
+ * 	"Software"), to deal in the Software without restriction, including
+ * 	without limitation the rights to use, copy, modify, merge, publish,
+ * 	distribute, sublicense, and/or sell copies of the Software, and to
+ * 	permit persons to whom the Software is furnished to do so, subject to
+ * 	the following conditions:
+ * 	
+ * 	The above copyright notice and this permission notice shall be
+ * 	included in all copies or substantial portions of the Software.
+ * 	
+ * 	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * 	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * 	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * 	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * 	LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * 	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+/* Styles for the example page, not relevent to countoverdue. */
+
+body {
+    color: #222222;
+    background: #f1f1f1;
+    padding: 8px;
+    margin: 0px;
+}
+
+p {
+    padding: 2px;
+    margin: 4px;
+}
+
+form legend {
+    color: #777777;
+    font-size: 0.75em;
+}
+
+form fieldset {
+    background: #ffffff;
+    border: 1px solid #999999;
+}
+
+.inline {
+    display: inline-block;
+    margin: 0px 16px;
+}
+
+.button {
+    display: inline-block;
+    font-size: 0.8em;
+    color: #111111;
+    background: #bbbbbb;
+    border: 1px solid #777777;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+p.note {
+    color: #777777;
+    font-size: 0.75em;
+}
+
+/* Styling for the default classes. */
+
+.countoverdue-timer {
+    color : #000000;
+}
+
+.countoverdue-negtimer {
+    color: #ff0000;
+}
+
+/* Styling for the extra classes. */
+
+.countoverdue-timerBLUE {
+    color: #0000ff;
+}
+
+.countoverdue-negtimerBOLD {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+/* Styling for the class that blinks when overdue (blink tags are terrible aren't they?). */
+
+.countoverdue-negtimerBLINK {
+    color: #ff0000;
+    animation: blink 0.5s step-end infinite;
+}
+
+@keyframes blink {
+	0%  {color: #ff0000}
+	75% {color: #ffffff}
+}
+
+/* Styling (that got completely out of hand) for the crazy classes. */
+
+.countoverdue-timerCRAZY {
+    line-height: 3.0em;
+}
+
+.countoverdue-timerCRAZY .countoverdue-pretimer {
+    animation: Cgrow1 4s infinite;
+}
+.countoverdue-timerCRAZY .countoverdue-mins {
+    color: #0000ff;
+    font-size: 1.7em;
+}
+
+.countoverdue-timerCRAZY .countoverdue-separator {
+    animation: Cgrow2 4s infinite;
+}
+
+.countoverdue-timerCRAZY .countoverdue-tsecs {
+    color: #9900ff;
+    animation: Cgrow4 1s infinite;
+}
+
+.countoverdue-timerCRAZY .countoverdue-osecs {
+    color: #ff1199;
+    animation: Cgrow3 1s infinite;
+}
+
+.countoverdue-timerCRAZY .countoverdue-posttimer {
+    color: #00ffff;
+    font-size: 1.6em;
+}
+
+@keyframes Cgrow1 {
+	0%   {color: #33ff00;
+         font-size: 1.0em}
+	50%  {color: #00ffff; 
+         font-size: 1.6em}
+    100% {color: #33ff00;
+         font-size: 1.0em}
+}
+
+@keyframes Cgrow2 {
+	0%   {color: #00ffff;
+         font-size: 1.6em}
+	50%  {color: #33ff00; 
+         font-size: 1.0em}
+    100% {color: #00ffff;
+         font-size: 1.6em}
+}
+
+@keyframes Cgrow3 {
+	0%  {font-size: 1.9em}
+	50% {font-size: 1.1em}
+}
+
+@keyframes Cgrow4 {
+	0%  {font-size: 1.1em}
+	50% {font-size: 1.9em}
+}
+
+
+.countoverdue-negtimerCRAZY {
+    line-height: 3.0em;
+    animation: Calert1 3.0s infinite;
+}
+
+.countoverdue-negtimerCRAZY .countoverdue-pretimer {
+    color: #b1382f;
+    font-weight: bold;
+    animation: Cblink1 0.5s step-end infinite;
+    animation: Cgrow4 1s infinite;
+}
+.countoverdue-negtimerCRAZY .countoverdue-mins {
+    color: #3e050c;
+    font-size: 1.7em;
+}
+
+.countoverdue-negtimerCRAZY .countoverdue-separator {
+    color: #a94f3b;
+    font-weight: bold;
+    animation: Cblink2 0.5s step-end infinite;
+    animation: Cgrow3 1s infinite;
+}
+
+.countoverdue-negtimerCRAZY .countoverdue-tsecs {
+    color: #f23c50;
+    animation: Cgrow3 1s infinite;
+}
+
+.countoverdue-negtimerCRAZY .countoverdue-osecs {
+    color: #c01242;
+    animation: Cgrow4 1s infinite;
+}
+
+.countoverdue-negtimerCRAZY .countoverdue-posttimer {
+    color: #b1382f;
+    font-weight: bold;
+    font-size: 1.5em;
+    animation: Cblink1 0.5s step-end infinite;
+}
+
+@keyframes Cblink1 {
+    0%  {color: #b1382f}
+	40% {color: #a94f3b}
+	80% {color: #ffffff}
+}
+
+@keyframes Cblink2 {
+	0%  {color: #a94f3b}
+	40% {color: #ffffff}
+    60% {color: #b1382f}
+}
+
+@keyframes Calert1 {
+	0%   {font-size: 1.0em}
+	50%  {font-size: 1.2em}
+    100% {font-size: 1.0em}
+}

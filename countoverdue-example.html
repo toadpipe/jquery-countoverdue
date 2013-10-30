@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<!--
+ * 	Copyright (c) 2013 Toadpipe, http://www.soundinavacuum.com
+ *  
+ * 	Permission is hereby granted, free of charge, to any person obtaining
+ * 	a copy of this software and associated documentation files (the
+ * 	"Software"), to deal in the Software without restriction, including
+ * 	without limitation the rights to use, copy, modify, merge, publish,
+ * 	distribute, sublicense, and/or sell copies of the Software, and to
+ * 	permit persons to whom the Software is furnished to do so, subject to
+ * 	the following conditions:
+ * 	
+ * 	The above copyright notice and this permission notice shall be
+ * 	included in all copies or substantial portions of the Software.
+ * 	
+ * 	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * 	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * 	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * 	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * 	LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * 	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+<html>
+<head><title>Jquery Countoverdue Examples</title>
+<style type="text/css" title="currentStyle" media="screen">
+	@import "./countoverdue-example.css";
+</style>
+<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+<script src="./jquery.countoverdue.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="title">
+	<h3>Examples of the jquery.countoverdue timer</h3>
+    <p> So you need an easy way for your webapp to display to the user a timer that counts down to zero; once it gets to zero it needs to continue into the negative and change visually to allow your user an easy cue that things have gone on Far Too Long.</p>
+    <p>To fill this unique niche, comes jquery.countoverdue!</p>
+    <p>These examples will show you how jquery.countoverdue works, and with some degree of luck, provide a solution for you quickly.</p>
+</div>
+
+<div id="current-time">
+    <h3>Setting up some dates</h3>
+    <p>This is the current time and date as of page load.</p>
+    <form><fieldset><legend>js code:</legend>
+    <p><code>
+    var now_date = new Date();
+    </code></p></fieldset></form>
+    <form><fieldset><legend>result:</legend>
+    <p><div id="nowtime"></div></p>
+    </fieldset></form>
+    <p>The next two times are grabbed from the current time minus 32 seconds.</p>
+    <form><fieldset><legend>js code:</legend>
+    <p><code>
+    var soon_date = now_date.getTime() + 32000;
+    </code></p>
+    <p>and</p>
+    <p><code>
+    var past_date = now_date.getTime() - 32000;
+    </code></p></fieldset></form>
+    <form><fieldset><legend>result:</legend>
+    <p><div id="soontime"></div></p>
+    <p>and</p>
+    <p><div id="pasttime"></div></p>
+    </fieldset></form>
+    <p>For this example let's grab two more times, one way in the past and another far far in the future.</p>
+    <form><fieldset><legend>js code:</legend>
+    <p><code>
+    var crazypast = "January 23, 1032 05:36:00";<br>
+    var crazypastdate = new Date(crazypast);
+    </code></p>
+    <p>and</p>
+    <p><code>
+    var crazyfuture = 99997464956932;<br>
+    var crazyfuturedate = new Date(crazyfuture);
+    </code></p></fieldset></form>
+    <form><fieldset><legend>result:</legend>
+    <p><div id="crazypast"></div></p>
+    <p>and</p>
+    <p><div id="crazyfuture"></div></p>
+    </fieldset></form>
+</div>
+<div id="defaults-example">
+    <h3>Default settings</h3>
+    <p>This timer is using the default options of countoverdue.  First we add a div that will be the timer.</p>
+    <form><fieldset><legend>code:</legend>
+    <form><fieldset><legend>html:</legend>
+    <p><code>
+    &lt;div id="blarg1"&gt;&lt;/div&gt;<br>
+    </code></p></fieldset></form>
+    <p>Now in our script we create the timer using one of the dates above. Since we are using the defaults, only the date needs to be supplied to countoverdue.  You can pass an actual Date() or a date string/number.</p>
+    <form><fieldset><legend>js:</legend>
+    <p><code>
+    $("#blarg1").countoverdue(soon_date);
+    </code></p></fieldset></form>
+    </fieldset></form>
+    <form><fieldset><legend>result:</legend>
+    <p><div id="blarg1"></div></p>
+    </fieldset></form>
+    <p>This second timer uses the time that has already past.  The starts in the negative and stays that way.</p>
+    <form><fieldset><legend>code:</legend>
+    <form><fieldset><legend>html:</legend>
+    <p><code>
+    &lt;div id="blarg2"&gt;&lt;/div&gt;<br>
+    </code></p></fieldset></form>
+    <form><fieldset><legend>js:</legend>
+    <p><code>
+    $("#blarg2").countoverdue(past_date);
+    </code></p></fieldset></form>
+    </fieldset></form>
+    <form><fieldset><legend>result:</legend>
+    <p><div id="blarg2"></div></p>
+    </fieldset></form>
+    <p>The countoverdue timer can be cancelled by passing "end" to the same div.</p>
+    <form><fieldset><legend>js code:</legend>
+    <p><code>
+    $("#blarg1").countoverdue("end");<br>
+    $("#blarg2").countoverdue("end");
+    </code></p></fieldset></form>
+    <p>Here we'll create a button that toggles a countoverdue timer on and off.</p>
+    <form><fieldset><legend>code:</legend>
+    <form><fieldset><legend>html:</legend>
+    <p><code>
+        &lt;div id="blarg3toggle" class="button"&gt;toggle blarg3&lt;/div&gt;<br>
+        &lt;div id="blarg3" class="inline"&gt;&lt;/div&gt;<br>
+    </code></p></fieldset></form>
+    <form><fieldset><legend>js:</legend>
+        $("#blarg3").countoverdue(soon_date);<br>
+        var timer_on = 1;<br>
+        $("#blarg3toggle").click(function() {<br>
+        &nbsp;&nbsp;if (timer_on == 1) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;$("#blarg3").countoverdue("end");<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;timer_on = 0;<br>
+        &nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;else {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;$("#blarg3").countoverdue(soon_date);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;timer_on = 1;<br>
+        &nbsp;&nbsp;}<br>
+        });
+    </code></p></fieldset></form>
+    </fieldset></form>
+    <form><fieldset><legend>result:</legend>
+    <p><div id="blarg3toggle" class="button">toggle blarg3</div><div id="blarg3" class="inline"></div></p>
+    <p class="note">
+    This toggle has the appearance of show/hide but it is in fact not.  Since countoverdue bases timer value on the supplied date as compared to the current date, ending and starting the same timer looks like it remained running while not visible.  This is not the case.</p>
+    </fieldset></form>
+</div>
+<div id="options-example">
+    <h3>Basic Options and Styling</h3>
+    <p>Countoverdue creates a span with two default classes:</p>
+    <p>"countoverdue-timer"<br>
+    "countoverdue-negtimer"</p>
+    <p>If you use the defaults the "countoverdue-timer" class styles the timer while in the positive, "countoverdue-negtimer" once it becomes overdue and counts into the negative.</p>
+    <p>In this example, the default classes are styled in the css file "countoverdue-example.css".  The entries look like this:</p>
+    <form><fieldset><legend>css code:</legend>
+    <p><code>
+    .countoverdue-timer {<br>
+    &nbsp;&nbsp;color : #000000;<br>
+    }<br><br>
+    .countoverdue-negtimer {<br>
+    &nbsp;&nbsp;color: #ff0000;<br>
+    }
+    </code></p></fieldset></form>
+    <p>As you can see, only the text color is edited.</p>
+    <p>Using css for these two default classes is the simpliest way to customize countoverdue. Styling the div supplied to countoverdue works also, but the timer will have the same styling in both positive and negative, which may be desired outcome.</p>
+    <p>Should decide you'd like more control over the timers (perhaps using countoverdue for more than one type of timer on the same page) you can pass countoverdue an object of key:values to adjust things to your liking.</p>
+    <p>The default option values are:</p>
+    <form><fieldset><legend>js code:</legend>
+    <p><code>
+    var defaults = {<br>
+    &nbsp;&nbsp;timer_span      : "countoverdue-timer",<br>
+    &nbsp;&nbsp;negtimer_span   : "countoverdue-negtimer",<br>
+    &nbsp;&nbsp;timer_pre       : "",<br>
+    &nbsp;&nbsp;negtimer_pre    : "-",<br>
+    &nbsp;&nbsp;separator       : ":",<br>
+    &nbsp;&nbsp;negseparator    : ":",<br>
+    &nbsp;&nbsp;timer_post      : "",<br>
+    &nbsp;&nbsp;negtimer_post   : "",<br>
+    };
+    <p class="note">Should you supply an object replacing default values, you need to also supply the date as a key:value like so:</p>
+    <p class="note"><form><fieldset><legend>code:</legend>
+    <p class="note"><code>
+    $("#my_countoverdue_timer").countoverdue({<br>
+    &nbsp;&nbsp;date            : "my supplied date",<br>
+    &nbsp;&nbsp;timer_span      : "my_positive_class",<br>
+    &nbsp;&nbsp;negtimer_span   : "my_negative_class",<br>
+    });</code></p></fieldset></form>
+    </code></p></fieldset></form></p>
+    <p>The keys "timer_span" and "negtimer_span" are the names of the span classes that countoverdue will use.  Here is an example of suppling different class names for the spans:</p>
+    <form><fieldset><legend>code:</legend>
+    <form><fieldset><legend>css:</legend>
+    <p><code>
+    .countoverdue-timerBLUE {<br>
+    &nbsp;&nbsp;color: #0000ff;<br>
+    }<br>
+    .countoverdue-negtimerBOLD {<br>
+    &nbsp;&nbsp;color: #ff0000;<br>
+    &nbsp;&nbsp;font-weight: bold;<br>
+    }
+    </code></p></fieldset></form>
+    <form><fieldset><legend>js:</legend>
+    <p><code>
+    $("#blarg4").countoverdue({<br>
+    &nbsp;&nbsp;date            : soon_date,<br>
+    &nbsp;&nbsp;timer_span      : "countoverdue-timerBLUE",<br>
+    &nbsp;&nbsp;negtimer_span   : "countoverdue-negtimerBOLD"<br>
+    });
+    </code></p></fieldset></form>
+    </fieldset></form>
+    <form><fieldset><legend>result:</legend>
+    <p><div id="blarg4"></div></p>
+    </fieldset></form>
+    <p>Oh look! There we have a new timer, styled differently by declaring a different class for both stages of the timer.</p>
+    <p>Here is a countoverdue timer that uses a non-default class on the negative side (and you thought blink tags were dead, just wait.).</p>
+    <form><fieldset><legend>code:</legend>
+    <form><fieldset><legend>css:</legend>
+    <p><code>
+    .countoverdue-negtimerBLINK {<br>
+    &nbsp;&nbsp;color: #ff0000;<br>
+    &nbsp;&nbsp;animation: blink 0.5s step-end infinite;<br>
+    }<br>
+    <br>
+    @keyframes blink {<br>
+	&nbsp;&nbsp;0%  {color: #ff0000}<br>
+	&nbsp;&nbsp;75% {color: #ffffff}<br>
+    }
+    </code></p></fieldset></form>
+    <form><fieldset><legend>js:</legend>
+    <p><code>
+    $("#blarg5").countoverdue({<br>
+    &nbsp;&nbsp;date            : soon_date,<br>
+    &nbsp;&nbsp;negtimer_span   : "countoverdue-negtimerBLINK"<br>
+    });
+    </code></p></fieldset></form>
+    </fieldset></form>
+    <form><fieldset><legend>result:</legend>
+    <p><div id="blarg5"></div></p>
+    <p class="note">MU HA HA! You thought blink tags were dead?  CSS animation to the rescue!  And you ain't seen nothing yet!</p>
+    </fieldset></form>
+</div>
+<div id="advance-options">
+    <h3>Serious Style Control & Extra Options</h3>
+    <p>There are six extra options that can be passed to countoverdue.</p>
+    <form><fieldset><legend>js code:</legend>
+    <p><code>
+    var extra_options = {<br>
+    &nbsp;&nbsp;timer_pre       : "",<br>
+    &nbsp;&nbsp;negtimer_pre    : "-",<br>
+    &nbsp;&nbsp;separator       : ":",<br>
+    &nbsp;&nbsp;negseparator    : ":",<br>
+    &nbsp;&nbsp;timer_post      : "",<br>
+    &nbsp;&nbsp;negtimer_post   : "",<br>
+    };
+    </code></p></fieldset></form>
+    <p>The two are tell countoverdue what string you want put in front of the timer.  You can set different strings for positive and negative timers.</p>
+    <p>Separator strings are what will appear between the minutes and seconds displayed in the timer.</p>
+    <p>The post strings are what follows the timer.  The default is for the post strings to be empty.</p>
+    <form><fieldset><legend>js code:</legend>
+    <p><code>
+    $("#my_countoverdue_timer").countoverdue({<br>
+    &nbsp;&nbsp;timer_pre       : "Due in: ",<br>
+    &nbsp;&nbsp;negtimer_pre    : "Overdue by: ",<br>
+    &nbsp;&nbsp;separator       : " minutes &amp; ",<br>
+    &nbsp;&nbsp;negseparator    : " minutes &amp; ",<br>
+    &nbsp;&nbsp;timer_post      : " seconds.",<br>
+    &nbsp;&nbsp;negtimer_post   : " seconds!"<br>
+    });
+    </code></p></fieldset></form>
+    <form><fieldset><legend>result:</legend>
+    <p><div id="blarg6"></div></p>
+    </fieldset></form>
+    <p>If you'd like to do some seriously weird things to the style of your countoverdue timer, within the main span of the timer countoverdue creates child spans of the following classes:
+    <ul>
+        <li><b>countoverdue-pretimer</b>, class of the pre-timer string.</li>
+        <li><b>countoverdue-mins</b>, class of the minutes.</li>
+        <li><b>countoverdue-separator</b>, class of the separator string.</li>
+        <li><b>countoverdue-tsecs</b>, class for the seconds in the tens column.</li>
+        <li><b>countoverdue-osecs</b>, class for the seconds in the ones column.</li>
+        <li><b>countoverdue-posttimer</b>, class of the post-timer string.</li>
+    </ul>
+    Here is one final example.  We'll use all of the options and then just go nuts with the css.</p>
+    <form><fieldset><legend>code:</legend>
+    <form><fieldset><legend>js:</legend>
+    <p><code>
+    $("#blarg7").countoverdue({<br>
+    &nbsp;&nbsp;date            : soon_time,<br>
+    &nbsp;&nbsp;timer_pre       : "Time until: ",<br>
+    &nbsp;&nbsp;negtimer_pre    : "OVERDUE!  By: ",<br>
+    &nbsp;&nbsp;separator       : " minutes &amp; ",<br>
+    &nbsp;&nbsp;negseparator    : " minutes &amp; OMG! ",<br>
+    &nbsp;&nbsp;timer_post      : " seconds.",<br>
+    &nbsp;&nbsp;negtimer_post   : " seconds!",<br>
+    &nbsp;&nbsp;timer_span      : "countoverdue-timerCRAZY",<br>
+    &nbsp;&nbsp;negtimer_span   : "countoverdue-negtimerCRAZY"<br>
+    });
+    </code></p></fieldset></form>
+    <form><fieldset><legend>css:</legend>
+    <p><code>
+    .countoverdue-timerCRAZY {<br>
+    &nbsp;&nbsp;line-height: 3.0em;<br>
+    }<br><br>
+    .countoverdue-timerCRAZY .countoverdue-pretimer {<br>
+    &nbsp;&nbsp;       animation: Cgrow1 4s infinite;<br>
+    }<br><br>
+    .countoverdue-timerCRAZY .countoverdue-mins {<br>
+    &nbsp;&nbsp;    color: #0000ff;<br>
+    &nbsp;&nbsp;    font-size: 1.7em;<br>
+    }<br><br>
+    .countoverdue-timerCRAZY .countoverdue-separator {<br>
+    &nbsp;&nbsp;    animation: Cgrow2 4s infinite;<br>
+    }<br><br>
+    .countoverdue-timerCRAZY .countoverdue-tsecs {<br>
+    &nbsp;&nbsp;    color: #9900ff;<br>
+    &nbsp;&nbsp;    animation: Cgrow4 1s infinite;<br>
+    }<br><br>
+    .countoverdue-timerCRAZY .countoverdue-osecs {<br>
+    &nbsp;&nbsp;    color: #ff1199;<br>
+    &nbsp;&nbsp;    animation: Cgrow3 1s infinite;<br>
+    }<br><br>
+    .countoverdue-timerCRAZY .countoverdue-posttimer {<br>
+    &nbsp;&nbsp;    color: #00ffff;<br>
+    &nbsp;&nbsp;    font-size: 1.6em;<br>
+    }<br><br>
+    @keyframes Cgrow1 {<br>
+    &nbsp;&nbsp;	0%   {color: #33ff00;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;         font-size: 1.0em}<br>
+    &nbsp;&nbsp;	50%  {color: #00ffff;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;         font-size: 1.6em}<br>
+    &nbsp;&nbsp;    100% {color: #33ff00;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;         font-size: 1.0em}<br>
+    }<br><br>
+    @keyframes Cgrow2 {<br>
+    &nbsp;&nbsp;	0%   {color: #00ffff;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;         font-size: 1.6em}<br>
+    &nbsp;&nbsp;	50%  {color: #33ff00;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;         font-size: 1.0em}<br>
+    &nbsp;&nbsp;    100% {color: #00ffff;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;         font-size: 1.6em}<br>
+    }<br><br>
+    @keyframes Cgrow3 {<br>
+    &nbsp;&nbsp;	0%  {font-size: 1.9em}<br>
+    &nbsp;&nbsp;	50% {font-size: 1.1em}<br>
+    }<br><br>
+    @keyframes Cgrow4 {<br>
+    &nbsp;&nbsp;	0%  {font-size: 1.1em}<br>
+    &nbsp;&nbsp;	50% {font-size: 1.9em}<br>
+    }<br><br>
+    .countoverdue-negtimerCRAZY {<br>
+    &nbsp;&nbsp;    line-height: 3.0em;<br>
+    &nbsp;&nbsp;    animation: Calert1 3.0s infinite;<br>
+    }<br><br>
+    .countoverdue-negtimerCRAZY .countoverdue-pretimer {<br>
+    &nbsp;&nbsp;    color: #b1382f;<br>
+    &nbsp;&nbsp;    font-weight: bold;<br>
+    &nbsp;&nbsp;    animation: Cblink1 0.5s step-end infinite;<br>
+    &nbsp;&nbsp;    animation: Cgrow4 1s infinite;<br>
+    }<br><br>
+    .countoverdue-negtimerCRAZY .countoverdue-mins {<br>
+    &nbsp;&nbsp;    color: #3e050c;<br>
+    &nbsp;&nbsp;    font-size: 1.7em;<br>
+    }<br><br>
+    .countoverdue-negtimerCRAZY .countoverdue-separator {<br>
+    &nbsp;&nbsp;    color: #a94f3b;<br>
+    &nbsp;&nbsp;    font-weight: bold;<br>
+    &nbsp;&nbsp;    animation: Cblink2 0.5s step-end infinite;<br>
+    &nbsp;&nbsp;    animation: Cgrow3 1s infinite;<br>
+    }<br><br>
+    .countoverdue-negtimerCRAZY .countoverdue-tsecs {<br>
+    &nbsp;&nbsp;    color: #f23c50;<br>
+    &nbsp;&nbsp;    animation: Cgrow3 1s infinite;<br>
+    }<br><br>
+    .countoverdue-negtimerCRAZY .countoverdue-osecs {<br>
+    &nbsp;&nbsp;    color: #c01242;<br>
+    &nbsp;&nbsp;    animation: Cgrow4 1s infinite;<br>
+    }<br><br>
+    .countoverdue-negtimerCRAZY .countoverdue-posttimer {<br>
+    &nbsp;&nbsp;    color: #b1382f;<br>
+    &nbsp;&nbsp;    font-weight: bold;<br>
+    &nbsp;&nbsp;    font-size: 1.5em;<br>
+    &nbsp;&nbsp;    animation: Cblink1 0.5s step-end infinite;<br>
+    }<br><br>
+    @keyframes Cblink1 {<br>
+    &nbsp;&nbsp;    0%  {color: #b1382f}<br>
+    &nbsp;&nbsp;	40% {color: #a94f3b}<br>
+    &nbsp;&nbsp;	80% {color: #ffffff}<br>
+    }<br><br>
+    @keyframes Cblink2 {<br>
+    &nbsp;&nbsp;	0%  {color: #a94f3b}<br>
+    &nbsp;&nbsp;	40% {color: #ffffff}<br>
+    &nbsp;&nbsp;    60% {color: #b1382f}<br>
+    }<br>
+    @keyframes Calert1 {<br>
+    &nbsp;&nbsp;	0%   {font-size: 1.0em}<br>
+    &nbsp;&nbsp;	50%  {font-size: 1.2em}<br>
+    &nbsp;&nbsp;    100% {font-size: 1.0em}<br>
+    }
+    </code></p></fieldset></form>
+    </fieldset></form>
+    <form><fieldset><legend>result:</legend>
+    <p><div id="blarg7"></div></p>
+    <p class="note">Try not to stare at this result too long if you are prone to headaches.</p>
+    </fieldset></form>
+    <p>Hope you enjoy countoverdue!</p>
+    <p class="note">Page reloads every 64 seconds to keep the examples fresh.</p>
+</div>
+
+<script>
+var now_date = new Date();
+
+var soon_date = now_date.getTime() + 32000;
+var past_date = now_date.getTime() - 32000;
+var crazypast = "January 23, 1032 05:36:00";
+var crazyfuture = 99997464956932;
+var crazypastdate = new Date(crazypast);
+var crazyfuturedate = new Date(crazyfuture);
+
+var classoptions = {timer_span      : "countoverdue-timerBLUE",
+                    negtimer_span   : "countoverdue-negtimerBOLD"};
+
+var negoptions = {negtimer_span     : "countoverdue-negtimerBLINK"};
+
+var crazyoptions = {separator       : " minutes & ",
+                    negseparator    : " minutes & OMG! ",
+                    timer_pre       : "Time until: ",
+                    timer_post      : " seconds.",
+                    negtimer_pre    : "OVERDUE!  By: ",
+                    negtimer_post   : " seconds!",
+                    timer_span      : "countoverdue-timerCRAZY",
+                    negtimer_span   : "countoverdue-negtimerCRAZY"};
+
+$("#nowtime").html(now_date);
+$("#soontime").html(new Date(soon_date));
+$("#pasttime").html(new Date(past_date));
+$("#crazypast").html(new Date(crazypast));
+$("#crazyfuture").html(new Date(crazyfuture));
+$("#blarg1").countoverdue(soon_date);
+$("#blarg2").countoverdue(past_date);
+
+$("#blarg3").countoverdue(soon_date);
+var timer_on = 1;
+$("#blarg3toggle").click(function() {
+    if (timer_on == 1) {
+        $("#blarg3").countoverdue("end");
+        timer_on = 0;
+    }
+    else {
+        $("#blarg3").countoverdue(soon_date);
+        timer_on = 1;
+    }
+}); 
+$("#blarg4").countoverdue($.extend({}, {date : soon_date}, classoptions));
+$("#blarg5").countoverdue($.extend({}, {date : soon_date}, negoptions));
+
+$("#blarg6").countoverdue({
+    date            : soon_date,
+    timer_pre       : "Due in: ",
+    negtimer_pre    : "Overdue by: ",
+    separator       : " minutes & ",
+    negseparator    : " minutes & ",
+    timer_post      : " seconds.",
+    negtimer_post   : " seconds!"
+});
+
+$("#blarg7").countoverdue($.extend({}, {date : soon_date}, crazyoptions));
+
+setTimeout("location.reload();",64000);
+</script>
+</body>
+</html>
